@@ -75,6 +75,7 @@ class Canvas(QWidget):
         self.showCenter = False
 
     def enterEvent(self, ev):
+        # print("--------- ENTER EVENT -------")
         self.overrideCursor(self._cursor)
 
     def leaveEvent(self, ev):
@@ -108,7 +109,14 @@ class Canvas(QWidget):
 
     def mouseMoveEvent(self, ev):
         """Update line with last point and current coordinates."""
+        # print('Mouse Enter')
+        # ------------- START TODO image zoom in and out mouse scroll Divya Chandana -------------
+
+        # ------------- END TODO image zoom in and out mouse scroll Divya Chandana-------------
+
         pos = self.transformPos(ev.pos())
+
+
 
         self.restoreCursor()
 
@@ -704,6 +712,7 @@ class Canvas(QWidget):
         return super(Canvas, self).minimumSizeHint()
 
     def wheelEvent(self, ev):
+        print("------------ wheel Event START -------------")
         qt_version = 4 if hasattr(ev, "delta") else 5
         if qt_version == 4:
             if ev.orientation() == Qt.Vertical:
@@ -717,6 +726,22 @@ class Canvas(QWidget):
             h_delta = delta.x()
             v_delta = delta.y()
         # print('scrolling vdelta is %d, hdelta is %d' % (v_delta, h_delta))
+        # ----------------------- on wheel event zoom in and out Modified by Divya Chandana -------------
+        # scale = 1.0
+        # # Respond to Linux (event.num) or Windows (event.delta) wheel event
+        # if ev.num == 5 or ev.delta == -120:
+        #     scale *= self.delta
+        #     self.imscale *= self.delta
+        # if ev.num == 4 or ev.delta == 120:
+        #     scale /= self.delta
+        #     self.imscale /= self.delta
+        # # Rescale all canvas objects
+        # x = self.canvas.canvasx(ev.x)
+        # y = self.canvas.canvasy(ev.y)
+        # self.canvas.scale('all', x, y, scale, scale)
+        # self.show_image()
+        # self.canvas.configure(scrollregion=self.canvas.bbox('all'))
+        # ----------------------- on wheel event zoom in and out Modified by Divya Chandana -------------
         mods = ev.modifiers()
         if Qt.ControlModifier == int(mods) and v_delta:
             self.zoomRequest.emit(v_delta)
