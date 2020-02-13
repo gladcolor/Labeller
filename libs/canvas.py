@@ -743,7 +743,11 @@ class Canvas(QWidget):
         # self.canvas.configure(scrollregion=self.canvas.bbox('all'))
         # ----------------------- on wheel event zoom in and out Modified by Divya Chandana -------------
         mods = ev.modifiers()
-        if Qt.ControlModifier == int(mods) and v_delta:
+        # START modified by Divya Chandana for ctrl + wheel to zoom in and out
+        # if Qt.ControlModifier == int(mods) and v_delta:
+        # END modified by Divya Chandana for ctrl + wheel to zoom in and out
+
+        if v_delta:
             self.zoomRequest.emit(v_delta)
         else:
             v_delta and self.scrollRequest.emit(v_delta, Qt.Vertical)
