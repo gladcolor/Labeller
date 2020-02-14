@@ -230,7 +230,7 @@ class MainWindow(QMainWindow, WindowMixin):
         #  ------------ left and right modified by divya chandana --------
 
         verify = action('&Verify Image', self.verifyImg,
-                        'space', 'verify', u'Verify Image')
+                        'enter', 'verify', u'Verify Image')
 
         save = action('&Save', self.saveFile,
                       'Ctrl+S', 'save', u'Save labels to file', enabled=False)
@@ -253,7 +253,7 @@ class MainWindow(QMainWindow, WindowMixin):
                         'w', 'new', u'Draw a new Box', enabled=False)
 
         createRo = action('Create\nRotatedRBox', self.createRoShape,
-                        'e', 'newRo', u'Draw a new RotatedRBox', enabled=False)
+                        'space', 'newRo', u'Draw a new RotatedRBox', enabled=False)
 
         delete = action('Delete\nRectBox', self.deleteSelectedShape,
                         'Delete', 'delete', u'Delete', enabled=False)

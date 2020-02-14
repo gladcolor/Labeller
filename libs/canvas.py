@@ -615,7 +615,7 @@ class Canvas(QWidget):
             pal = self.palette()
             pal.setColor(self.backgroundRole(), QColor(232, 232, 232, 255))
             self.setPalette(pal)
-
+        print('rect draw complete')
         p.end()
 
     def transformPos(self, point):
@@ -712,7 +712,7 @@ class Canvas(QWidget):
         return super(Canvas, self).minimumSizeHint()
 
     def wheelEvent(self, ev):
-        print("------------ wheel Event START -------------")
+        # print("------------ wheel Event START -------------")
         qt_version = 4 if hasattr(ev, "delta") else 5
         if qt_version == 4:
             if ev.orientation() == Qt.Vertical:
@@ -773,12 +773,12 @@ class Canvas(QWidget):
         elif key == Qt.Key_Down and self.selectedShape:
             self.moveOnePixel('Down')
         #     -------- modified by divya chandana ---------
-        elif key == Qt.Key_Left:
-            print('move to prev image')
-            # self.moveOnePixel('Left')
-        elif key == Qt.Key_Right:
-            print('move to next image')
-            # self.moveOnePixel('Right')
+        # elif key == Qt.Key_Left:
+        #     print('move to prev image')
+        #     # self.moveOnePixel('Left')
+        # elif key == Qt.Key_Right:
+        #     print('move to next image')
+        #     # self.moveOnePixel('Right')
         #     -------- modified by divya chandana ---------
         elif key == Qt.Key_Z and self.selectedShape and\
              self.selectedShape.isRotated and not self.rotateOutOfBound(0.1):
