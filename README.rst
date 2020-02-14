@@ -116,14 +116,19 @@ Windows
 ^^^^^^^
 
     for python 3
+
     install python
+
     pip3
 
     cd roLabelImg
 
     pip install PyQt5
+
     pip install lxml
+
     pyrcc5 -o resources.py resources.qrc
+
     python labelImg.py
 
 Download and setup `Python 2.6 or
