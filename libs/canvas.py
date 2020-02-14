@@ -772,6 +772,14 @@ class Canvas(QWidget):
             self.moveOnePixel('Up')
         elif key == Qt.Key_Down and self.selectedShape:
             self.moveOnePixel('Down')
+        #     -------- modified by divya chandana ---------
+        elif key == Qt.Key_Left:
+            print('move to prev image')
+            # self.moveOnePixel('Left')
+        elif key == Qt.Key_Right:
+            print('move to next image')
+            # self.moveOnePixel('Right')
+        #     -------- modified by divya chandana ---------
         elif key == Qt.Key_Z and self.selectedShape and\
              self.selectedShape.isRotated and not self.rotateOutOfBound(0.1):
             self.selectedShape.rotate(0.1)

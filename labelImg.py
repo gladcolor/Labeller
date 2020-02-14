@@ -221,11 +221,13 @@ class MainWindow(QMainWindow, WindowMixin):
         openAnnotation = action('&Open Annotation', self.openAnnotation,
                                 'Ctrl+Shift+O', 'openAnnotation', u'Open Annotation')
 
+        #  ------------ left and right modified by divya chandana --------
         openNextImg = action('&Next Image', self.openNextImg,
-                             'd', 'next', u'Open Next')
+                             'right', 'next', u'Open Next')
 
         openPrevImg = action('&Prev Image', self.openPrevImg,
-                             'a', 'prev', u'Open Prev')
+                             'left', 'prev', u'Open Prev')
+        #  ------------ left and right modified by divya chandana --------
 
         verify = action('&Verify Image', self.verifyImg,
                         'space', 'verify', u'Verify Image')
