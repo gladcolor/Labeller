@@ -114,7 +114,7 @@ OS X
 
 Windows
 ^^^^^^^
-.. code::
+
     for python 3
     install python
     pip3
