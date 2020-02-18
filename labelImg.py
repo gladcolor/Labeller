@@ -657,7 +657,9 @@ class MainWindow(QMainWindow, WindowMixin):
 
     # Tzutalin 20160906 : Add file list and dock to move faster
     def fileitemDoubleClicked(self, item=None):
-        currIndex = self.mImgList.index(ustr(item.text()))
+        # ------- removed extra file path by divya chandana -------
+        half_name = item.text()
+        currIndex = self.mImgList.index(ustr(self.dirname+'/'+half_name))
         if currIndex < len(self.mImgList):
             filename = self.mImgList[currIndex]
             if filename:
@@ -1084,6 +1086,8 @@ class MainWindow(QMainWindow, WindowMixin):
         self.mImgList = self.scanAllImages(dirpath)
         self.openNextImg()
         for imgPath in self.mImgList:
+            # ------- removed extra file path by divya chandana -------
+            imgPath = imgPath.replace(self.dirname + '/', '')
             item = QListWidgetItem(imgPath)
             self.fileListWidget.addItem(item)
 

@@ -615,7 +615,7 @@ class Canvas(QWidget):
             pal = self.palette()
             pal.setColor(self.backgroundRole(), QColor(232, 232, 232, 255))
             self.setPalette(pal)
-        print('rect draw complete')
+        # print('rect draw complete')
         p.end()
 
     def transformPos(self, point):
