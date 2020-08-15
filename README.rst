@@ -115,6 +115,22 @@ OS X
 Windows
 ^^^^^^^
 
+    for python 3
+
+    install python
+
+    pip3
+
+    cd roLabelImg
+
+    pip install PyQt5
+
+    pip install lxml
+
+    pyrcc5 -o resources.py resources.qrc
+
+    python labelImg.py
+
 Download and setup `Python 2.6 or
 later <https://www.python.org/downloads/windows/>`__,
 `PyQt4 <https://www.riverbankcomputing.com/software/pyqt/download>`__

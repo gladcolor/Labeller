@@ -221,14 +221,16 @@ class MainWindow(QMainWindow, WindowMixin):
         openAnnotation = action('&Open Annotation', self.openAnnotation,
                                 'Ctrl+Shift+O', 'openAnnotation', u'Open Annotation')
 
+        #  ------------ left and right modified by divya chandana --------
         openNextImg = action('&Next Image', self.openNextImg,
-                             'd', 'next', u'Open Next')
+                             'right', 'next', u'Open Next')
 
         openPrevImg = action('&Prev Image', self.openPrevImg,
-                             'a', 'prev', u'Open Prev')
+                             'left', 'prev', u'Open Prev')
+        #  ------------ left and right modified by divya chandana --------
 
         verify = action('&Verify Image', self.verifyImg,
-                        'space', 'verify', u'Verify Image')
+                        'enter', 'verify', u'Verify Image')
 
         save = action('&Save', self.saveFile,
                       'Ctrl+S', 'save', u'Save labels to file', enabled=False)
@@ -251,7 +253,7 @@ class MainWindow(QMainWindow, WindowMixin):
                         'w', 'new', u'Draw a new Box', enabled=False)
 
         createRo = action('Create\nRotatedRBox', self.createRoShape,
-                        'e', 'newRo', u'Draw a new RotatedRBox', enabled=False)
+                        'space', 'newRo', u'Draw a new RotatedRBox', enabled=False)
 
         delete = action('Delete\nRectBox', self.deleteSelectedShape,
                         'Delete', 'delete', u'Delete', enabled=False)
@@ -655,7 +657,9 @@ class MainWindow(QMainWindow, WindowMixin):
 
     # Tzutalin 20160906 : Add file list and dock to move faster
     def fileitemDoubleClicked(self, item=None):
-        currIndex = self.mImgList.index(ustr(item.text()))
+        # ------- removed extra file path by divya chandana -------
+        half_name = item.text()
+        currIndex = self.mImgList.index(ustr(self.dirname+'/'+half_name))
         if currIndex < len(self.mImgList):
             filename = self.mImgList[currIndex]
             if filename:
@@ -1082,6 +1086,8 @@ class MainWindow(QMainWindow, WindowMixin):
         self.mImgList = self.scanAllImages(dirpath)
         self.openNextImg()
         for imgPath in self.mImgList:
+            # ------- removed extra file path by divya chandana -------
+            imgPath = imgPath.replace(self.dirname + '/', '')
             item = QListWidgetItem(imgPath)
             self.fileListWidget.addItem(item)
 
@@ -1102,6 +1108,12 @@ class MainWindow(QMainWindow, WindowMixin):
             self.saveFile()
 
     def openPrevImg(self, _value=False):
+        # Proceding next image without dialog if having any label
+        if self.autoSaving is True and self.defaultSaveDir is not None:
+            if self.dirty is True:
+                self.dirty = False
+                self.canvas.verified = True
+                self.saveFile()
         if not self.mayContinue():
             return
 

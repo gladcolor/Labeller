@@ -73,8 +73,10 @@ class Canvas(QWidget):
         self.hideNormal = False
         self.canOutOfBounding = False
         self.showCenter = False
+        self.canPan = True
 
     def enterEvent(self, ev):
+        # print("--------- ENTER EVENT -------")
         self.overrideCursor(self._cursor)
 
     def leaveEvent(self, ev):
@@ -108,7 +110,14 @@ class Canvas(QWidget):
 
     def mouseMoveEvent(self, ev):
         """Update line with last point and current coordinates."""
+        # print('Mouse Enter')
+        # ------------- START TODO image zoom in and out mouse scroll Divya Chandana -------------
+
+        # ------------- END TODO image zoom in and out mouse scroll Divya Chandana-------------
+
         pos = self.transformPos(ev.pos())
+
+
 
         self.restoreCursor()
 
@@ -172,6 +181,9 @@ class Canvas(QWidget):
                 self.shapeMoved.emit()
                 self.repaint()
                 self.status.emit("(%d,%d)." % (pos.x(), pos.y()))
+            else:
+                print('code goes here for drag?')
+
             return
 
         # Just hovering over the canvas, 2 posibilities:
@@ -219,10 +231,23 @@ class Canvas(QWidget):
             self.hideBackroundShapes(True)
             if self.drawing():
                 self.handleDrawing(pos)
-            else:                
+            elif self.selectedShape is not None:
                 self.selectShapePoint(pos)
                 self.prevPoint = pos
                 self.repaint()
+            else:
+                self.selectShapePoint(pos)
+                self.prevPoint = pos
+                self.repaint()
+                # if self.canPan:
+                #     QGraphicsView.setDragMode(QGraphicsView.ScrollHandDrag)
+                # self.leftMouseButtonPressed.emit(pos.x(),pos.y())
+                # if self.canPan:
+                    # self.QGraphicsView.setDragMode(QGraphicsView.ScrollHandDrag)
+                # self.leftMouseButtonPressed.emit(pos.x(), pos.y())
+                print('try to drag')
+
+                # print('not selected any image about to drag')
         elif ev.button() == Qt.RightButton and self.editing():
             self.selectShapePoint(pos)
             self.hideBackroundShapes(True)
@@ -234,7 +259,7 @@ class Canvas(QWidget):
             self.repaint()
 
     def mouseReleaseEvent(self, ev):  
-        self.hideBackroundShapes(False)      
+        self.hideBackroundShapes(False)
         if ev.button() == Qt.RightButton and not self.selectedVertex():            
             menu = self.menus[bool(self.selectedShapeCopy)]
             self.restoreCursor()
@@ -607,7 +632,7 @@ class Canvas(QWidget):
             pal = self.palette()
             pal.setColor(self.backgroundRole(), QColor(232, 232, 232, 255))
             self.setPalette(pal)
-
+        # print('rect draw complete')
         p.end()
 
     def transformPos(self, point):
@@ -704,6 +729,7 @@ class Canvas(QWidget):
         return super(Canvas, self).minimumSizeHint()
 
     def wheelEvent(self, ev):
+        # print("------------ wheel Event START -------------")
         qt_version = 4 if hasattr(ev, "delta") else 5
         if qt_version == 4:
             if ev.orientation() == Qt.Vertical:
@@ -718,8 +744,14 @@ class Canvas(QWidget):
             v_delta = delta.y()
         # print('scrolling vdelta is %d, hdelta is %d' % (v_delta, h_delta))
         mods = ev.modifiers()
-        if Qt.ControlModifier == int(mods) and v_delta:
+        # ----------- START modified by Divya Chandana for ctrl + wheel to zoom in and out
+        # if Qt.ControlModifier == int(mods) and v_delta:
+        # ----------- END modified by Divya Chandana for ctrl + wheel to zoom in and out
+
+        if v_delta:
             self.zoomRequest.emit(v_delta)
+            v_delta and self.scrollRequest.emit(v_delta, Qt.Vertical)
+            h_delta and self.scrollRequest.emit(h_delta, Qt.Horizontal)
         else:
             v_delta and self.scrollRequest.emit(v_delta, Qt.Vertical)
             h_delta and self.scrollRequest.emit(h_delta, Qt.Horizontal)
@@ -743,6 +775,14 @@ class Canvas(QWidget):
             self.moveOnePixel('Up')
         elif key == Qt.Key_Down and self.selectedShape:
             self.moveOnePixel('Down')
+        #     -------- modified by divya chandana ---------
+        # elif key == Qt.Key_Left:
+        #     print('move to prev image')
+        #     # self.moveOnePixel('Left')
+        # elif key == Qt.Key_Right:
+        #     print('move to next image')
+        #     # self.moveOnePixel('Right')
+        #     -------- modified by divya chandana ---------
         elif key == Qt.Key_Z and self.selectedShape and\
              self.selectedShape.isRotated and not self.rotateOutOfBound(0.1):
             self.selectedShape.rotate(0.1)
